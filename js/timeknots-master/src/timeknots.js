@@ -60,64 +60,13 @@ var TimeKnots = {
       y2 : null
     }
 
-    svg.selectAll("line")
-    .data(events).enter().append("line")
+    svg.append("line")
     .attr("class", "timeline-line")
-      .attr("x1", function(d){
-                      var ret;
-                      if(cfg.horizontalLayout){
-                        var datum = (cfg.dateDimension)?new Date(d.date).getTime():d.value;
-                        ret = Math.floor(step*(datum - minValue) + margin)
-                      }
-                      else{
-                        ret = Math.floor(cfg.width/2)
-                      }
-                      linePrevious.x1 = ret
-                      return ret
-                      })
-    .attr("x2", function(d){
-                      if (linePrevious.x1 != null){
-                          return linePrevious.x1
-                      }
-                      if(cfg.horizontalLayout){
-                        var datum = (cfg.dateDimension)?new Date(d.date).getTime():d.value;
-                        ret = Math.floor(step*(datum - minValue ))
-                      }
-                      return Math.floor(cfg.width/2)
-                      })
-    .attr("y1", function(d){
-                      var ret;
-                      if(cfg.horizontalLayout){
-                        ret = Math.floor(cfg.height/2)
-                      }
-                      else{
-                        var datum = (cfg.dateDimension)?new Date(d.date).getTime():d.value;
-                        ret = Math.floor(step*(datum - minValue)) + margin
-                      }
-                      linePrevious.y1 = ret
-                      return ret
-                      })
-    .attr("y2", function(d){
-                      if (linePrevious.y1 != null){
-                        return linePrevious.y1
-                      }
-                      if(cfg.horizontalLayout){
-                        return Math.floor(cfg.height/2)
-                      }
-                      var datum = (cfg.dateDimension)?new Date(d.date).getTime():d.value;
-                      return Math.floor(step*(datum - minValue))
-                      })
-    .style("stroke", function(d){
-                      if(d.color != undefined){
-                        return d.color
-                      }
-                      if(d.series != undefined){
-                        if(series.indexOf(d.series) < 0){
-                          series.push(d.series);
-                        }
-                        return cfg.seriesColor(series.indexOf(d.series));
-                      }
-                      return cfg.color})
+      .attr("x1", 20)
+    .attr("x2", 480)
+    .attr("y1", 100)
+    .attr("y2", 100)
+    .style("stroke", "teal")
     .style("stroke-width", cfg.lineWidth);
 
     svg.selectAll("circle")

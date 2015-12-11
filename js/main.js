@@ -1,15 +1,14 @@
 $( document ).ready(function() {
 	var fps = 1;
-	var numOfSec = 3000;
+	var numOfSec = 10000;
 	var time;
+	var widthOfTimeline = 500;
+	var widthOfTimelineCircle = 20;
+
 
 	var nonDatedata = [
-		{"value": 50, "name": "Player 1" },
-		{"value": 249, "name": "Player 2" },
-		{"value": 297, "name": "Player 3" },
-		{"value": 388, "name": "Player 4" },
-		{"value": 397, "name": "Player 5" },
-		{"value": 418, "name": "Player 6" }
+		{"value": 0, "name": "0s" },
+		{"value": numOfSec, "name": "10s" }
 	];
 	
 	function playAnimation(){
@@ -28,19 +27,28 @@ $( document ).ready(function() {
 
     function redrawTimeline(){
 		$('#timelineNonDate').empty();
-
 		TimeKnots.draw("#timelineNonDate", nonDatedata, {dateDimension:false, color: "teal", width:500, showLabels: true, labelFormat: "%Y"});
     }
 
-    $("#timeline-wrapper").on( "click", ".timeline-event", function() {
+    $("#timeline-wrapper").on( "click", ".timeline-event", function(evt) {
  		console.log("click na keyframe");
  		console.log($(this));
- 		backend.addKeyFrame(10,10,10,10);
+ 		
+ 		// backend.addKeyFrame(10,10,10,10);
 	});
 
-	$("#timeline-wrapper").on( "click", ".timeline-line", function() {
+	$("#timeline-wrapper").on( "click", ".timeline-line", function(evt) {
  		console.log("click na line");
  		console.log($(this));
+
+ 		var e = evt.target;
+        var dim = e.getBoundingClientRect();
+        var x = evt.clientX - dim.left;
+        var y = evt.clientY - dim.top;
+        console.log("x: "+x);
+        console.log("x: "+((x*numOfSec)/widthOfTimeline)+" y:"+y);
+        nonDatedata.push({"value": ((x*numOfSec)/widthOfTimeline), "name": (x/numOfSec/10)+"s" });
+        redrawTimeline();
 	});
 
     playAnimation();
