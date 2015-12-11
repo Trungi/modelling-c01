@@ -4,7 +4,7 @@ $( document ).ready(function() {
 	var time;
 
 	var nonDatedata = [
-		{"value": 0, "name": "Player 1" },
+		{"value": 50, "name": "Player 1" },
 		{"value": 249, "name": "Player 2" },
 		{"value": 297, "name": "Player 3" },
 		{"value": 388, "name": "Player 4" },
@@ -35,6 +35,7 @@ $( document ).ready(function() {
     $("#timeline-wrapper").on( "click", ".timeline-event", function() {
  		console.log("click na keyframe");
  		console.log($(this));
+ 		backend.addKeyFrame(10,10,10,10);
 	});
 
 	$("#timeline-wrapper").on( "click", ".timeline-line", function() {
