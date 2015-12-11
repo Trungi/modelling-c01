@@ -1,9 +1,66 @@
 <html>
-    <head>
-        <title>C01 - Tomas Trungel, Martin Filek, PHYSICAL BASED ANIMATIONS AND MATHEMATICAL MODELLING</title>
-    </head>
-    <body>
+	<head>
+		<title>C01 - Tomas Trungel, Martin Filek, PHYSICAL BASED ANIMATIONS AND MATHEMATICAL MODELLING</title>
 
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<!-- Latest compiled and minified CSS -->
 
-    </body>
+		<!-- Optional theme -->
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script type="text/javascript" src="js/timeknots-master/src/d3.v2.min.js" ></script>
+		<script type="text/javascript" src="js/timeknots-master/src/timeknots-min.js" ></script>
+		<script type="text/javascript" src="js/main.js" ></script>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="style.css">
+		
+	</head>
+	<body>
+		<div class="container">
+			<div class="col-md-10" id="main-div">
+				<div class="col-md-12" id="screen">
+					
+				</div>
+				<div class="col-md-12" id="timeline-wrapper">
+					<div id="timelineNonDate"></div>
+				</div>
+			</div>
+			<div class="col-md-2" id="side-control-panel">
+				<div class="col-md-12">
+					<h3>Settings:</h3>
+				</div>
+				<div class="col-md-12 align-center">
+					<button class="btn btn-success">Play</button>
+				</div>
+				<div class="col-md-12 align-center">
+					<button class="btn btn-success">Add keyframe</button>
+				</div>
+				<div class="col-md-12 align-center">
+					<button class="btn btn-success">Remove keyframe</button>
+				</div>
+				<div class="col-md-12">
+					<div class="input-group">
+						<label for="fps-input">FPS:</label>
+						<input type="text" class="form-control" id="fps-input">
+					</div>
+				</div>
+				<div class="col-md-12"> 
+					<label for="fps-input">Keyframe method:</label>
+					<div class="radio">
+						<label><input type="radio" name="optradio">Nearest neighbor interpolation of a Sequence of key-frames</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="optradio">Linear interpolation of a Sequence of key-frames</label>
+					</div>
+					<div class="radio disabled">
+						<label><input type="radio" name="optradio" disabled>One Cubic Bezier curve</label>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</body>
 </html>
