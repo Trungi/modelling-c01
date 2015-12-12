@@ -25,7 +25,7 @@ var Screen = {
 	},
 
 	move: function(){
-		if (event.ctrlKey) {
+		if (event.shiftKey) {
 			// rotacia
 			nonDatedata[mainCfg.activeKeyframeIndex].recr = (d3.event.y + d3.event.x) % 359;
 			Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
