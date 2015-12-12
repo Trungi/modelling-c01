@@ -9,15 +9,23 @@ $( document ).ready(function() {
 	};
 
 	nonDatedata = [
-		{"value": 0, "name": "0s", 'recx': 50, 'recy': 50 },
-		{"value": cfg.numOfSec, "name": "10s", 'recx': 0, 'recy': 0}
+		{"value": 0, "name": "0s", 'recx': 50, 'recy': 50, 'recr': 0 },
+		{"value": cfg.numOfSec, "name": "10s", 'recx': 200, 'recy': 200, 'recr': 200}
 	];
 	
 	function playAnimation(){
 		var secCouner = 0;
+
+		var type = $("#interpolation input[type='radio']:checked").val();
+		interpolation.loadData(nonDatedata, typen);
+
 		time = setInterval(function(){
 			secCouner += 1000/cfg.fps;
 			if(secCouner >= cfg.numOfSec) stopPlaying();
+
+			// get square
+			position = interpolation.getPosition(secCounter);
+
 			Timeline.redraw('#timelineNonDate', nonDatedata);
 		}, 1000/fps);
 	}
