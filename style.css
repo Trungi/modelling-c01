@@ -5,3 +5,7 @@
 #side-control-panel > div{
 	margin-top: 1em;
 }
+
+.active-circle{
+	fill:red !important;
+}

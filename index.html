@@ -11,6 +11,7 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script type="text/javascript" src="js/timeknots-master/src/d3.v2.min.js" ></script>
 		<script type="text/javascript" src="js/timeknots-master/src/timeknots.js" ></script>
+		<script type="text/javascript" src="js/timeknots-master/src/screen.js" ></script>
         <script src="js/backend.js" ></script>
 		<script type="text/javascript" src="js/main.js" ></script>
 
@@ -22,8 +23,8 @@
 	<body>
 		<div class="container">
 			<div class="col-md-10" id="main-div">
-				<div class="col-md-12" id="screen">
-					
+				<div class="col-md-12" id="screen-wrapper">
+					<div id="screen"></div>
 				</div>
 				<div class="col-md-12" id="timeline-wrapper">
 					<div id="timelineNonDate"></div>
@@ -35,9 +36,6 @@
 				</div>
 				<div class="col-md-12 align-center">
 					<button class="btn btn-success">Play</button>
-				</div>
-				<div class="col-md-12 align-center">
-					<button class="btn btn-success">Add keyframe</button>
 				</div>
 				<div class="col-md-12 align-center">
 					<button class="btn btn-success">Remove keyframe</button>
