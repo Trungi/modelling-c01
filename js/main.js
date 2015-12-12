@@ -41,6 +41,7 @@ $( document ).ready(function() {
 		console.log("stop playing !");
 		clearInterval(mainCfg.time);
 		$('#play-animation-btn').prop('disabled', false);
+		 Timeline.redraw('#timelineNonDate', nonDatedata);
 		Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
 	}
 
@@ -52,12 +53,6 @@ $( document ).ready(function() {
 	$("#timeline-wrapper").on("click", ".timeline-line", function(evt) {
 		Timeline.addNewCircle(evt);
 		Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
-	});
-
-	// ulozenie novej pozicie obdlznika pre aktualny frame
-	$("#screen").on( "mouseout", ".rec", function(evt) {
-		nonDatedata[mainCfg.activeKeyframeIndex].recx = parseFloat(d3.select(".rec").attr("x"));
-		nonDatedata[mainCfg.activeKeyframeIndex].recy = parseFloat(d3.select(".rec").attr("y"));
 	});
 
 	$('#play-animation-btn').click(function(){

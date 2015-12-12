@@ -25,14 +25,21 @@ var Screen = {
 	},
 
 	move: function(){
-		d3.select(this)
-			.attr("x", (d3.event.x-50))
-			.attr("y", (d3.event.y-25));
+		if (event.ctrlKey) {
+			// rotacia
+			nonDatedata[mainCfg.activeKeyframeIndex].recr = (d3.event.y + d3.event.x) % 359;
+			Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
+		} else {
+			// posuvanie
+			nonDatedata[mainCfg.activeKeyframeIndex].recx = d3.event.x - mainCfg.recWidth*1.5;
+			nonDatedata[mainCfg.activeKeyframeIndex].recy = d3.event.y;
+			Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
+		}
 	},
 
 	redraw: function(id, keyframe){
 		$(id).empty();
-		this.draw(id, keyframe, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"}, mainCfg);
+		this.draw(id, keyframe, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"});
 	},
 
 	drawBezier: function(id, keyframe, nextkeyframe) {
