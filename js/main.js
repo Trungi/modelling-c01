@@ -16,6 +16,9 @@ $( document ).ready(function() {
 	function playAnimation(){
 		var secCounter = 0;
 		Timeline.movePlayingLine(cfg);
+
+		cfg.fps = $("#fps-input").val();
+
 		var type = $("#interpolation input[type='radio']:checked").val();
 		interpolation.loadData(nonDatedata, type);
 
@@ -57,6 +60,8 @@ $( document ).ready(function() {
 	Timeline.redraw('#timelineNonDate', nonDatedata);
 	Screen.redraw('#screen', nonDatedata[0]);
 
+
+	// interpolation.loadData(nonDatedata);
 
 });
 

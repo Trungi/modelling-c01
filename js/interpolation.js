@@ -22,20 +22,35 @@ var interpolation = new function() {
 	}
 
 	this.getPosition = function (t) {
-		if (this.type == "linear" || 1) {
+		if (this.type == "nearest") {
+			return this.nearestInterpolation(t);
+		} else if (this.type == "linear") {
 			return this.linearInterpolation(t);
+		} else {
+
 		}
+	}
+
+	this.nearestInterpolation = function (t) {
+		var pk = 0;
+
+		for (id in this.times) {
+			var key = this.times[id];
+			if (key > t) {
+				return this.keyframes[this.times[id-1]];
+			}
+		}
+
+		return this.keyframes[this.times[this.times.length-1]];
 	}
 
 	this.linearInterpolation = function (t) {
 		// linear interpolation between two keypoints
 		var pk = 0;
-		console.log(this.times);
 
 		for (id in this.times) {
 			var key = this.times[id];
 
-			console.log(key);
 			if (key > t) {
 				var a = this.keyframes[pk];
 				var b = this.keyframes[key];
