@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-	var cfg = {
+	mainCfg = {
 		fps: 20,
 		numOfSec: 10000,
 		time: {},
@@ -18,59 +18,61 @@ $( document ).ready(function() {
 	
 	function playAnimation(){
 		var secCounter = 0;
-		Timeline.movePlayingLine(cfg);
+		Timeline.movePlayingLine();
 		$('#play-animation-btn').prop('disabled', true);
 
-		cfg.fps = $("#fps-input").val();
+		mainCfg.fps = $("#fps-input").val();
 
 		var type = $("#interpolation input[type='radio']:checked").val();
 		interpolation.loadData(nonDatedata, type);
 
-		cfg.time = setInterval(function(){
-			secCounter += 1000/cfg.fps;
-			if(secCounter >= cfg.numOfSec) stopPlaying();
+		mainCfg.time = setInterval(function(){
+			secCounter += 1000/mainCfg.fps;
+			if(secCounter >= mainCfg.numOfSec) stopPlaying();
 
 			// get square
 			position = interpolation.getPosition(secCounter);
 			console.log(position);
-			Screen.redraw('#screen', position, cfg);
-		}, 1000/cfg.fps);
+			Screen.redraw('#screen', position, mainCfg);
+		}, 1000/mainCfg.fps);
 	}
 	
 	function stopPlaying() {
 		console.log("stop playing !");
-		clearInterval(cfg.time);
+		clearInterval(mainCfg.time);
 		$('#play-animation-btn').prop('disabled', false);
+		Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
 	}
 
 	$("#timeline-wrapper").on("click", ".timeline-event", function(evt) {
-		Timeline.activateKeyframe($(this), cfg, nonDatedata);
-		Screen.redraw('#screen', nonDatedata[cfg.activeKeyframeIndex], cfg);
+		Timeline.activateKeyframe($(this), nonDatedata);
+		Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
 	});
 
 	$("#timeline-wrapper").on("click", ".timeline-line", function(evt) {
-		Timeline.addNewCircle(cfg, evt);
+		Timeline.addNewCircle(evt);
+		Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
 	});
 
 	// ulozenie novej pozicie obdlznika pre aktualny frame
 	$("#screen").on( "mouseout", ".rec", function(evt) {
-		nonDatedata[cfg.activeKeyframeIndex].recx = parseFloat(d3.select(".rec").attr("x"));
-		nonDatedata[cfg.activeKeyframeIndex].recy = parseFloat(d3.select(".rec").attr("y"));
+		nonDatedata[mainCfg.activeKeyframeIndex].recx = parseFloat(d3.select(".rec").attr("x"));
+		nonDatedata[mainCfg.activeKeyframeIndex].recy = parseFloat(d3.select(".rec").attr("y"));
 	});
 
 	$('#play-animation-btn').click(function(){
 		playAnimation();
 	});
 	   
-	Timeline.redraw('#timelineNonDate', nonDatedata, cfg);
-	Screen.redraw('#screen', nonDatedata[0], cfg);
+	Timeline.redraw('#timelineNonDate', nonDatedata);
+	Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
 
 	$('#remove-keyframe-btn').click(function(){
-		if(cfg.activeKeyframeIndex != 0 && cfg.activeKeyframeIndex != 1){
-			nonDatedata.pop(cfg.activeKeyframeIndex);
-			cfg.activeKeyframeIndex = 0;
-			Timeline.redraw('#timelineNonDate', nonDatedata, cfg);
-			Screen.redraw('#screen', nonDatedata[cfg.activeKeyframeIndex], cfg);
+		if(mainCfg.activeKeyframeIndex != 0 && mainCfg.activeKeyframeIndex != 1){
+			nonDatedata.pop(mainCfg.activeKeyframeIndex);
+			mainCfg.activeKeyframeIndex = 0;
+			Timeline.redraw('#timelineNonDate', nonDatedata);
+			Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex], mainCfg);
 		}
 	});
 });
