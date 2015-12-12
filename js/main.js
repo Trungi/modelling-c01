@@ -12,7 +12,7 @@ $( document ).ready(function() {
 	};
 
 	nonDatedata = [
-		{"value": (20*cfg.numOfSec)/cfg.widthOfTimeline, "name": "0s", 'recx': 50, 'recy': 50, 'recr': 0 },
+		{"value": (20*cfg.numOfSec)/cfg.widthOfTimeline, "name": "0s", 'recx': 50, 'recy': 50, 'recr': 0, 'b1x': 200, 'b1y': 200, 'b2x': 300, 'b2y': 300 },
 		{"value": cfg.numOfSec, "name": "10s", 'recx': (cfg.widthOfScreen/2 - cfg.recWidth/2), 'recy': (cfg.widthOfScreen/2 - cfg.recHeight/2), 'recr': 200}
 	];
 	
