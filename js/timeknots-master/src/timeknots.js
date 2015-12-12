@@ -1,6 +1,6 @@
 var Timeline = {
   draw: function(id, events, options){
-	var cfg = {
+	cfg = {
 	  width: 500,
 	  height: 50,
 	  radius: 10,
@@ -36,7 +36,7 @@ var Timeline = {
 	.style("padding", "5px 10px 5px 10px")
 	.style("-moz-border-radius", "8px 8px")
 	.style("border-radius", "8px 8px");
-	var svg = d3.select(id).append('svg').attr("width", cfg.width).attr("height", cfg.height);
+	svg = d3.select(id).append('svg').attr("width", cfg.width).attr("height", cfg.height);
 	//Calculate times in terms of timestamps
 	if(!cfg.dateDimension){
 	  var timestamps = events.map(function(d){console.log(d);return  d.value});//new Date(d.date).getTime()});
@@ -147,13 +147,16 @@ var Timeline = {
 	getIndexOfActiveKeyframe: function(cicle, data, mainConf){
 		var retIndex = -1;
 		var xPos = cicle.attr('cx')*mainConf.numOfSec/mainConf.widthOfTimeline;
-		var offset = mainConf.widthOfTimelineCircle/2*mainConf.numOfSec/mainConf.widthOfTimeline;
-		$.each(data, function( index, value ) {
+		var offset = mainConf.widthOfTimelineCircle*mainConf.numOfSec/mainConf.widthOfTimeline;
+		
+		console.log(offset);
 
-			if(value.value < xPos + 600 && value.value > xPos - 600){
+		$.each(data, function( index, value ) {
+			if(value.value < xPos + offset && value.value > xPos - offset){
 				retIndex = index;
 			}
 		});
+		
 		return retIndex;
 	},
 
@@ -171,8 +174,24 @@ var Timeline = {
 	activateKeyframe: function (circle, cfg, nonDatedata){
 		$('.timeline-event').attr("class", "timeline-event");
 		circle.attr("class", "timeline-event active-circle");
-		console.log(this.getIndexOfActiveKeyframe(circle, nonDatedata, cfg));
 		cfg.activeKeyframeIndex = this.getIndexOfActiveKeyframe(circle, nonDatedata, cfg);
+	},
+
+	movePlayingLine: function (mainCfg){
+		svg.append("line")
+			.attr("class", "playing-line")
+			.attr("x1", 20)
+			.attr("x2", 20)
+			.attr("y1", cfg.height/2+10)
+			.attr("y2", cfg.height/2-10)
+			.style("stroke", "red")
+			.style("stroke-width", cfg.lineWidth);
+
+		d3.select('.playing-line').transition()
+			.duration(mainCfg.numOfSec)
+			.ease("linear")
+			.attr("x1", 20 + mainCfg.widthOfTimeline)
+			.attr("x2", 20 + mainCfg.widthOfTimeline);
 	}
 }
 

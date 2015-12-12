@@ -31,6 +31,7 @@ var Screen = {
 
 	redraw: function(id, data){
 		$(id).empty();
+		console.log(data);
 		this.draw(id, data, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"});
 	}
 }

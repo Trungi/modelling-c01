@@ -1,6 +1,6 @@
 $( document ).ready(function() {
-	cfg = {
-		fps: 1,
+	var cfg = {
+		fps: 20,
 		numOfSec: 10000,
 		time: {},
 		widthOfTimeline: 460,
@@ -14,20 +14,20 @@ $( document ).ready(function() {
 	];
 	
 	function playAnimation(){
-		var secCouner = 0;
-
+		var secCounter = 0;
+		Timeline.movePlayingLine(cfg);
 		var type = $("#interpolation input[type='radio']:checked").val();
-		interpolation.loadData(nonDatedata, typen);
+		interpolation.loadData(nonDatedata, type);
 
 		time = setInterval(function(){
-			secCouner += 1000/cfg.fps;
-			if(secCouner >= cfg.numOfSec) stopPlaying();
+			secCounter += 1000/cfg.fps;
+			if(secCounter >= cfg.numOfSec) stopPlaying();
 
 			// get square
 			position = interpolation.getPosition(secCounter);
-
-			Timeline.redraw('#timelineNonDate', nonDatedata);
-		}, 1000/fps);
+			console.log(position);
+			Screen.redraw('#screen', position);
+		}, 1000/cfg.fps);
 	}
 	
 	function stopPlaying() {
@@ -50,11 +50,12 @@ $( document ).ready(function() {
 		nonDatedata[cfg.activeKeyframeIndex].recy = parseFloat(d3.select(".rec").attr("y"));
 	});
 
+	$('#play-animation-btn').click(function(){
+		playAnimation();
+	});
 	   
 	Timeline.redraw('#timelineNonDate', nonDatedata);
 	Screen.redraw('#screen', nonDatedata[0]);
-
-	// playAnimation();
 
 
 });
