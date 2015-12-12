@@ -7,6 +7,7 @@ var Screen = {
 
 	    var svg = d3.select(id)
 	    			.append('svg')
+	    			.style("border", '2px solid teal')
 	    			.attr("width", cfg.width)
 	    			.attr("height", cfg.height);
 
@@ -20,7 +21,6 @@ var Screen = {
 			.style('stroke-width','6')
 			.style('fill','white')
 			.call(d3.behavior.drag().on("drag", this.move));
-
 	},
 
 	move: function(){
