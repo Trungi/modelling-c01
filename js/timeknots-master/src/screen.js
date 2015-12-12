@@ -32,7 +32,7 @@ var Screen = {
 
 	redraw: function(id, keyframe){
 		$(id).empty();
-		this.draw(id, data, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"}, mainCfg);
+		this.draw(id, keyframe, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"}, mainCfg);
 	},
 
 	drawBezier: function() {
