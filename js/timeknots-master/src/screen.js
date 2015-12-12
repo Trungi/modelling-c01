@@ -17,6 +17,7 @@ var Screen = {
 			.attr("y", frame.recy)
 			.attr("width", mainCfg.recWidth)
 			.attr("height", mainCfg.recHeight)
+			.attr("transform", "rotate("+ frame.recr + " " + frame.recx + " " + frame.recy + ")")
 			.style('stroke','teal')
 			.style('stroke-width','6')
 			.style('fill','white')
@@ -33,6 +34,10 @@ var Screen = {
 		$(id).empty();
 		console.log(data);
 		this.draw(id, data, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"}, mainCfg);
+	},
+
+	drawBezier: function() {
+
 	}
 }
 
