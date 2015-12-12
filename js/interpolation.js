@@ -18,10 +18,17 @@ var interpolation = new function() {
 			this.times[this.times.length] = data[i]['value'];
 		}
 
-		this.times = this.times.sort();
+		this.times = this.times.sort(function(a, b){return a-b})
 	}
 
 	this.getPosition = function (t) {
+		// if this is margin
+		if (t < this.times[0]) {
+			console.log(this.keyframes[this.times[0]]);
+			return this.keyframes[this.times[0]];
+		}
+		
+		// else interpolate!
 		if (this.type == "nearest") {
 			return this.nearestInterpolation(t);
 		} else if (this.type == "linear") {
