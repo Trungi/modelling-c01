@@ -19,6 +19,7 @@ $( document ).ready(function() {
 	function playAnimation(){
 		var secCounter = 0;
 		Timeline.movePlayingLine(cfg);
+		$('#play-animation-btn').prop('disabled', true);
 
 		cfg.fps = $("#fps-input").val();
 
@@ -39,6 +40,7 @@ $( document ).ready(function() {
 	function stopPlaying() {
 		console.log("stop playing !");
 		clearInterval(cfg.time);
+		$('#play-animation-btn').prop('disabled', false);
 	}
 
 	$("#timeline-wrapper").on("click", ".timeline-event", function(evt) {
@@ -60,11 +62,16 @@ $( document ).ready(function() {
 		playAnimation();
 	});
 	   
-	Timeline.redraw('#timelineNonDate', nonDatedata);
+	Timeline.redraw('#timelineNonDate', nonDatedata, cfg);
 	Screen.redraw('#screen', nonDatedata[0], cfg);
 
-
-	// interpolation.loadData(nonDatedata);
-
+	$('#remove-keyframe-btn').click(function(){
+		if(cfg.activeKeyframeIndex != 0 && cfg.activeKeyframeIndex != 1){
+			nonDatedata.pop(cfg.activeKeyframeIndex);
+			cfg.activeKeyframeIndex = 0;
+			Timeline.redraw('#timelineNonDate', nonDatedata, cfg);
+			Screen.redraw('#screen', nonDatedata[cfg.activeKeyframeIndex], cfg);
+		}
+	});
 });
 
