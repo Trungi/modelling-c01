@@ -108,18 +108,30 @@ var Timeline = {
 		.style("opacity", 0)});
   },
 
-	redraw: function(id, data, mainCfg){
+	redraw: function(id, data){
+		console.log(data);
+		console.log(mainCfg);
 		$(id).empty();
 		this.draw(id, data, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"});
+		this.drawActiveKeyframe(data);
 	},
 
-	getIndexOfActiveKeyframe: function(cicle, data, mainConf){
-		var retIndex = -1;
-		var xPos = cicle.attr('cx')*mainConf.numOfSec/mainConf.widthOfTimeline;
-		var offset = mainConf.widthOfTimelineCircle*mainConf.numOfSec/mainConf.widthOfTimeline;
-		
-		console.log(offset);
+	drawActiveKeyframe: function (data){
+		var activeKeyframe = data[mainCfg.activeKeyframeIndex];
+		var offset = mainCfg.widthOfTimelineCircle*mainCfg.numOfSec/mainCfg.widthOfTimeline;
+		$('.timeline-event').each(function() {
+			var xPos = $(this).attr('cx')*mainCfg.numOfSec/mainCfg.widthOfTimeline;
+			if(xPos < activeKeyframe.value + offset && xPos > activeKeyframe.value - offset){
+				$(this).attr("class", "timeline-event active-circle");
+			}
+		});
+	},
 
+	getIndexOfActiveKeyframe: function(cicle, data){
+		var retIndex = -1;
+		var xPos = cicle.attr('cx')*mainCfg.numOfSec/mainCfg.widthOfTimeline;
+		var offset = mainCfg.widthOfTimelineCircle*mainCfg.numOfSec/mainCfg.widthOfTimeline;
+		
 		$.each(data, function( index, value ) {
 			if(value.value < xPos + offset && value.value > xPos - offset){
 				retIndex = index;
@@ -129,24 +141,24 @@ var Timeline = {
 		return retIndex;
 	},
 
-	addNewCircle: function (mainCfg, evt){
+	addNewCircle: function (evt){
 		var e = evt.target;
 		var dim = e.getBoundingClientRect();
 		var x = evt.clientX - dim.left;
 		var y = evt.clientY - dim.top;
-		nonDatedata.push({"value": ((x*mainCfg.numOfSec)/mainCfg.widthOfTimeline), 
+		var indexOfItem = nonDatedata.push({"value": ((x*mainCfg.numOfSec)/mainCfg.widthOfTimeline),
 			"name": (((x*mainCfg.numOfSec)/mainCfg.widthOfTimeline)/10)+"s", 
-			'recx': 0, 'recy': 0});
-		this.redraw('#timelineNonDate', nonDatedata, mainCfg);
+			'recx': 0, 'recy': 0}) -1;
+		mainCfg.activeKeyframeIndex = indexOfItem;
+		this.redraw('#timelineNonDate', nonDatedata);
 	},
 
-	activateKeyframe: function (circle, cfg, nonDatedata){
-		$('.timeline-event').attr("class", "timeline-event");
-		circle.attr("class", "timeline-event active-circle");
-		cfg.activeKeyframeIndex = this.getIndexOfActiveKeyframe(circle, nonDatedata, cfg);
+	activateKeyframe: function (circle, nonDatedata){
+		mainCfg.activeKeyframeIndex = this.getIndexOfActiveKeyframe(circle, nonDatedata);
+		this.redraw('#timelineNonDate', nonDatedata);
 	},
 
-	movePlayingLine: function (mainCfg){
+	movePlayingLine: function (){
 		svg.append("line")
 			.attr("class", "playing-line")
 			.attr("x1", 20)

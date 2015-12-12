@@ -1,5 +1,5 @@
 var Screen = {
-  draw: function(id, frame, options, mainCfg){
+  draw: function(id, frame, options){
 	    var cfg = {
 	      width: 500,
 	      height: 400,
@@ -30,9 +30,8 @@ var Screen = {
 			.attr("y", (d3.event.y-25));
 	},
 
-	redraw: function(id, data, mainCfg){
+	redraw: function(id, keyframe){
 		$(id).empty();
-		console.log(data);
 		this.draw(id, data, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"}, mainCfg);
 	},
 
