@@ -155,6 +155,24 @@ var Timeline = {
 			}
 		});
 		return retIndex;
+	},
+
+	addNewCircle: function (cofig, evt){
+		var e = evt.target;
+		var dim = e.getBoundingClientRect();
+		var x = evt.clientX - dim.left;
+		var y = evt.clientY - dim.top;
+		nonDatedata.push({"value": ((x*cofig.numOfSec)/cofig.widthOfTimeline), 
+			"name": (((x*cofig.numOfSec)/cofig.widthOfTimeline)/10)+"s", 
+			'recx': 0, 'recy': 0});
+		this.redraw('#timelineNonDate', nonDatedata);
+	},
+
+	activateKeyframe: function (circle, cfg, nonDatedata){
+		$('.timeline-event').attr("class", "timeline-event");
+		circle.attr("class", "timeline-event active-circle");
+		console.log(this.getIndexOfActiveKeyframe(circle, nonDatedata, cfg));
+		cfg.activeKeyframeIndex = this.getIndexOfActiveKeyframe(circle, nonDatedata, cfg);
 	}
 }
 

@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-	var cfg = {
+	cfg = {
 		fps: 1,
 		numOfSec: 10000,
 		time: {},
@@ -28,19 +28,12 @@ $( document ).ready(function() {
 	}
 
 	$("#timeline-wrapper").on("click", ".timeline-event", function(evt) {
-		$('.timeline-event').attr("class", "timeline-event");
-		$(this).attr("class", "timeline-event active-circle");
-		cfg.activeKeyframeIndex = Timeline.getIndexOfActiveKeyframe($(this), nonDatedata, cfg);
+		Timeline.activateKeyframe($(this), cfg, nonDatedata);
 		Screen.redraw('#screen', nonDatedata[cfg.activeKeyframeIndex]);
 	});
 
-	$("#timeline-wrapper").on( "click", ".timeline-line", function(evt) {
-		var e = evt.target;
-		var dim = e.getBoundingClientRect();
-		var x = evt.clientX - dim.left;
-		var y = evt.clientY - dim.top;
-		nonDatedata.push({"value": ((x*cfg.numOfSec)/cfg.widthOfTimeline), "name": (((x*cfg.numOfSec)/cfg.widthOfTimeline)/10)+"s" , 'recx': 0, 'recy': 0});
-		Timeline.redraw('#timelineNonDate', nonDatedata);
+	$("#timeline-wrapper").on("click", ".timeline-line", function(evt) {
+		Timeline.addNewCircle(cfg, evt);
 	});
 
 	// ulozenie novej pozicie obdlznika pre aktualny frame
