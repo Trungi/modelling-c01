@@ -35,8 +35,18 @@ var Screen = {
 		this.draw(id, keyframe, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"}, mainCfg);
 	},
 
-	drawBezier: function() {
+	drawBezier: function(id, keyframe, nextkeyframe) {
 
+	    var svg = d3.select(id);
+
+		svg.append("svg:path")
+		.attr("id", "curve")
+		.attr("d", "M"+ [keyframe.recx, keyframe.recy].join() + " C" + [keyframe.b1x, keyframe.b1y].join() +
+			" " + [keyframe.b2x, keyframe.b2y].join() + " "+ [nextkeyframe.recx, nextkeyframe.recy].join())
+		.style('fill', 'none')
+		.style('stroke-linecap', 'round')
+		.style('stroke', '#000')
+		.style('stroke-width', '3px');
 	}
 }
 
