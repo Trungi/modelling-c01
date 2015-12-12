@@ -1,5 +1,5 @@
 var Screen = {
-  draw: function(id, frame, options){
+  draw: function(id, frame, options, mainCfg){
 	    var cfg = {
 	      width: 500,
 	      height: 400,
@@ -14,8 +14,8 @@ var Screen = {
 			.attr("class", "rec")
 			.attr("x", frame.recx)
 			.attr("y", frame.recy)
-			.attr("width", 100)
-			.attr("height", 50)
+			.attr("width", mainCfg.recWidth)
+			.attr("height", mainCfg.recHeight)
 			.style('stroke','teal')
 			.style('stroke-width','6')
 			.style('fill','white')
@@ -29,10 +29,10 @@ var Screen = {
 			.attr("y", (d3.event.y-25));
 	},
 
-	redraw: function(id, data){
+	redraw: function(id, data, mainCfg){
 		$(id).empty();
 		console.log(data);
-		this.draw(id, data, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"});
+		this.draw(id, data, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"}, mainCfg);
 	}
 }
 

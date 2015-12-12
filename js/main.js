@@ -4,13 +4,16 @@ $( document ).ready(function() {
 		numOfSec: 10000,
 		time: {},
 		widthOfTimeline: 460,
+		widthOfScreen: 500,
+		recWidth: 100,
+		recHeight: 50,
 		widthOfTimelineCircle: 20,
 		activeKeyframeIndex: 0,
 	};
 
 	nonDatedata = [
-		{"value": 0, "name": "0s", 'recx': 50, 'recy': 50, 'recr': 0 },
-		{"value": cfg.numOfSec, "name": "10s", 'recx': 200, 'recy': 200, 'recr': 200}
+		{"value": (20*cfg.numOfSec)/cfg.widthOfTimeline, "name": "0s", 'recx': 50, 'recy': 50, 'recr': 0 },
+		{"value": cfg.numOfSec, "name": "10s", 'recx': (cfg.widthOfScreen/2 - cfg.recWidth/2), 'recy': (cfg.widthOfScreen/2 - cfg.recHeight/2), 'recr': 200}
 	];
 	
 	function playAnimation(){
@@ -22,14 +25,14 @@ $( document ).ready(function() {
 		var type = $("#interpolation input[type='radio']:checked").val();
 		interpolation.loadData(nonDatedata, type);
 
-		time = setInterval(function(){
+		cfg.time = setInterval(function(){
 			secCounter += 1000/cfg.fps;
 			if(secCounter >= cfg.numOfSec) stopPlaying();
 
 			// get square
 			position = interpolation.getPosition(secCounter);
 			console.log(position);
-			Screen.redraw('#screen', position);
+			Screen.redraw('#screen', position, cfg);
 		}, 1000/cfg.fps);
 	}
 	
@@ -40,7 +43,7 @@ $( document ).ready(function() {
 
 	$("#timeline-wrapper").on("click", ".timeline-event", function(evt) {
 		Timeline.activateKeyframe($(this), cfg, nonDatedata);
-		Screen.redraw('#screen', nonDatedata[cfg.activeKeyframeIndex]);
+		Screen.redraw('#screen', nonDatedata[cfg.activeKeyframeIndex], cfg);
 	});
 
 	$("#timeline-wrapper").on("click", ".timeline-line", function(evt) {
@@ -58,7 +61,7 @@ $( document ).ready(function() {
 	});
 	   
 	Timeline.redraw('#timelineNonDate', nonDatedata);
-	Screen.redraw('#screen', nonDatedata[0]);
+	Screen.redraw('#screen', nonDatedata[0], cfg);
 
 
 	// interpolation.loadData(nonDatedata);
