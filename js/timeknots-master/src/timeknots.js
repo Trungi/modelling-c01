@@ -148,7 +148,9 @@ var Timeline = {
 		var y = evt.clientY - dim.top;
 		var indexOfItem = nonDatedata.push({"value": ((x*mainCfg.numOfSec)/mainCfg.widthOfTimeline),
 			"name": (((x*mainCfg.numOfSec)/mainCfg.widthOfTimeline)/10)+"s", 
-			'recx': 0, 'recy': 0}) -1;
+			'recx': 0, 'recy': 0, 'recr': 0,
+			'b1x': 200, 'b1y': 200, 'b2x': 300, 
+			'b2y': 300}) -1;
 		mainCfg.activeKeyframeIndex = indexOfItem;
 		this.redraw('#timelineNonDate', nonDatedata);
 	},

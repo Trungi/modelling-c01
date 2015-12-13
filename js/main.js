@@ -8,12 +8,15 @@ $( document ).ready(function() {
 		recWidth: 100,
 		recHeight: 50,
 		widthOfTimelineCircle: 20,
+		interpoltaionMethod: 'linear',
+		screenId: '#screen',
+		timelineId: '#timelineNonDate',
 		activeKeyframeIndex: 0,
 	};
 
 	nonDatedata = [
-		{"value": (20*mainCfg.numOfSec)/mainCfg.widthOfTimeline, "name": "0s", 'recx': 50, 'recy': 50, 'recr': 0, 'b1x': 200, 'b1y': 200, 'b2x': 300, 'b2y': 300 },
-		{"value": mainCfg.numOfSec, "name": "10s", 'recx': (mainCfg.widthOfScreen/2 - mainCfg.recWidth/2), 'recy': (mainCfg.widthOfScreen/2 - mainCfg.recHeight/2), 'recr': 200}
+		{"value": (20*mainCfg.numOfSec)/mainCfg.widthOfTimeline, "name": "0s", 'recx': 0, 'recy': 0, 'recr': 0, 'b1x': 200, 'b1y': 200, 'b2x': 300, 'b2y': 300 },
+		{"value": mainCfg.numOfSec, "name": "10s", 'recx': 0, 'recy': 0, 'recr': 0}
 	];
 	
 	function playAnimation(){
@@ -23,17 +26,17 @@ $( document ).ready(function() {
 
 		mainCfg.fps = $("#fps-input").val();
 
-		var type = $("#interpolation input[type='radio']:checked").val();
-		interpolation.loadData(nonDatedata, type);
+		interpolation.loadData(nonDatedata, mainCfg.interpoltaionMethod);
 
 		mainCfg.time = setInterval(function(){
 			secCounter += 1000/mainCfg.fps;
-			if(secCounter >= mainCfg.numOfSec) stopPlaying();
-
-			// get square
-			position = interpolation.getPosition(secCounter);
-			console.log(position);
-			Screen.redraw('#screen', position, mainCfg);
+			if(secCounter >= mainCfg.numOfSec) {
+				stopPlaying();
+			} else {
+				// get square
+				position = interpolation.getPosition(secCounter);
+				Screen.redraw('#screen', position, mainCfg);
+			}
 		}, 1000/mainCfg.fps);
 	}
 	
@@ -41,18 +44,17 @@ $( document ).ready(function() {
 		console.log("stop playing !");
 		clearInterval(mainCfg.time);
 		$('#play-animation-btn').prop('disabled', false);
-		 Timeline.redraw('#timelineNonDate', nonDatedata);
-		Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
+		Screen.redrawKeyframe();
 	}
 
 	$("#timeline-wrapper").on("click", ".timeline-event", function(evt) {
 		Timeline.activateKeyframe($(this), nonDatedata);
-		Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
+		Screen.redrawKeyframe();
 	});
 
 	$("#timeline-wrapper").on("click", ".timeline-line", function(evt) {
 		Timeline.addNewCircle(evt);
-		Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
+		Screen.redrawKeyframe();
 	});
 
 	$('#play-animation-btn').click(function(){
@@ -60,15 +62,22 @@ $( document ).ready(function() {
 	});
 	   
 	Timeline.redraw('#timelineNonDate', nonDatedata);
-	Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex]);
+	Screen.redrawKeyframe();
 
 	$('#remove-keyframe-btn').click(function(){
 		if(mainCfg.activeKeyframeIndex != 0 && mainCfg.activeKeyframeIndex != 1){
 			nonDatedata.pop(mainCfg.activeKeyframeIndex);
 			mainCfg.activeKeyframeIndex = 0;
 			Timeline.redraw('#timelineNonDate', nonDatedata);
-			Screen.redraw('#screen', nonDatedata[mainCfg.activeKeyframeIndex], mainCfg);
+			Screen.redrawKeyframe();
 		}
 	});
+
+	$("#interpolation input[type='radio']").change(function(e){
+		mainCfg.interpoltaionMethod = $("#interpolation input[type='radio']:checked").val();
+		Screen.redrawKeyframe();
+
+	});
+
 });
 
