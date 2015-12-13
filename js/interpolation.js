@@ -13,7 +13,7 @@ var interpolation = new function() {
 		this.type = type;
 		this.times = [];
 		this.keyframes = [];
-		
+
 		// loads data
 		for (var i in data) {
 			this.keyframes[data[i]['value']] = data[i];
@@ -88,9 +88,9 @@ var interpolation = new function() {
 		var pk = 0;
 
 		for (id in this.times) {
-			if (this.times[id] < t) {
-				var from = this.keyframes[this.times[id]];
-				var to = this.keyframes[this.times[Number(id) + 1]];
+			if (this.times[id] > t) {
+				var from = this.keyframes[this.times[Number(id) - 1]];
+				var to = this.keyframes[this.times[Number(id)]];
 
 				var bezierT = (t - from['value'])/(to['value'] - from['value']);
 
