@@ -1,75 +1,60 @@
 var Screen = {
-  draw: function(id, frame, options){
-	    var cfg = {
-	      width: 500,
-	      height: 400,
-	    };
 
-	    var svg = d3.select(id)
+	draw: function(frame){
+
+		var svg = d3.select(mainCfg.screen.id)
 			.append('svg')
 			.style("border", '2px solid teal')
-			.attr("width", cfg.width)
-			.attr("height", cfg.height);
+			.attr("width", mainCfg.screen.width)
+			.attr("height", mainCfg.screen.height);
 
 	    rec = svg.append("svg:rect")
 			.attr("class", "rec")
 			.attr("x", frame.recx)
 			.attr("y", frame.recy)
-			.attr("width", mainCfg.recWidth)
-			.attr("height", mainCfg.recHeight)
+			.attr("width", mainCfg.screen.recWidth)
+			.attr("height", mainCfg.screen.recHeight)
 			.attr("transform", "rotate("+ frame.recr + " " + frame.recx + " " + frame.recy + ")")
 			.style('stroke','teal')
 			.style('stroke-width','6')
 			.style('fill','white')
-			.call(d3.behavior.drag().on("drag", this.move));
+			.call(d3.behavior.drag().on("drag", this.moveRectange));
 	},
 
-	move: function(){
+	moveRectange: function(){
 		if (event.shiftKey) {
 			// rotacia
-			nonDatedata[mainCfg.activeKeyframeIndex].recr = (d3.event.y + d3.event.x) % 359;
+			keyframes[mainCfg.activeKeyframeIndex].recr = (d3.event.y + d3.event.x) % 359;
 			Screen.redrawKeyframe();
 		} else {
 			// posuvanie
-			nonDatedata[mainCfg.activeKeyframeIndex].recx = d3.event.x - mainCfg.recWidth*1.5;
-			nonDatedata[mainCfg.activeKeyframeIndex].recy = d3.event.y;
+			keyframes[mainCfg.activeKeyframeIndex].recx = d3.event.x - mainCfg.screen.recWidth*1.5;
+			keyframes[mainCfg.activeKeyframeIndex].recy = d3.event.y;
 			Screen.redrawKeyframe();
 		}
 	},
 
-	moveBezierCircle1: function (){
-		nonDatedata[mainCfg.activeKeyframeIndex].b1x = d3.event.x - mainCfg.recWidth*1.5;
-		nonDatedata[mainCfg.activeKeyframeIndex].b1y = d3.event.y;
-		Screen.redrawKeyframe();
-	},
-
-	moveBezierCircle2: function (){
-		nonDatedata[mainCfg.activeKeyframeIndex].b2x = d3.event.x - mainCfg.recWidth*1.5;
-		nonDatedata[mainCfg.activeKeyframeIndex].b2y = d3.event.y;
-		Screen.redrawKeyframe();
-	},
-
-	redraw: function(id, frame){
-		$(id).empty();
-		this.draw(id, frame, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"});
+	redraw: function(frame){
+		$(mainCfg.screen.id).empty();
+		this.draw(frame);
 	},
 
 	redrawKeyframe: function(){
-		$(mainCfg.screenId).empty();
-		var frame = nonDatedata[mainCfg.activeKeyframeIndex];
-		this.draw(mainCfg.screenId, frame, {dateDimension:false, color: "teal", width:500, showLabels: false, labelFormat: "%Y"});
+		$(mainCfg.screen.id).empty();
+		var frame = keyframes[mainCfg.activeKeyframeIndex];
+		this.redraw(frame);
 
 		if(mainCfg.interpoltaionMethod == 'bezier' 
 			&& mainCfg.activeKeyframeIndex != 1){
 			
-			var svg = d3.select(mainCfg.screenId+' svg');
+			var svg = d3.select(mainCfg.screen.id+' svg');
 
 			bezierCircle1 = svg.append("svg:circle")
 				.attr("class", "bezierCircle1")
 				.attr("r", 5)
-				.style("stroke", cfg.color)
-				.style("stroke-width", cfg.lineWidth)
-				.style("fill", cfg.background)
+				.style("stroke", mainCfg.timeline.color)
+				.style("stroke-width", mainCfg.timeline.lineWidth)
+				.style("fill", mainCfg.timeline.background)
 				.attr("cx",frame.b1x)
 				.attr("cy", frame.b1y)
 				.call(d3.behavior.drag().on("drag", this.moveBezierCircle1));
@@ -77,20 +62,32 @@ var Screen = {
 			bezierCircle2 = svg.append("svg:circle")
 				.attr("class", "bezierCircle2")
 				.attr("r", 5)
-				.style("stroke", cfg.color)
-				.style("stroke-width", cfg.lineWidth)
-				.style("fill", cfg.background)
+				.style("stroke", mainCfg.timeline.color)
+				.style("stroke-width", mainCfg.timeline.lineWidth)
+				.style("fill", mainCfg.timeline.background)
 				.attr("cx",frame.b2x)
 				.attr("cy", frame.b2y)
 				.call(d3.behavior.drag().on("drag", this.moveBezierCircle2));
 
-			this.drawBezier(svg, frame, nonDatedata[this.getNextKeyframe(mainCfg.activeKeyframeIndex)]);
+			this.drawBezier(svg, frame, keyframes[this.getNextKeyframeId(mainCfg.activeKeyframeIndex)]);
 		}
 	},
 
-	getNextKeyframe: function(keyframeIndex){
+	moveBezierCircle1: function (){
+		keyframes[mainCfg.activeKeyframeIndex].b1x = d3.event.x - mainCfg.screen.recWidth*1.5;
+		keyframes[mainCfg.activeKeyframeIndex].b1y = d3.event.y;
+		Screen.redrawKeyframe();
+	},
+
+	moveBezierCircle2: function (){
+		keyframes[mainCfg.activeKeyframeIndex].b2x = d3.event.x - mainCfg.screen.recWidth*1.5;
+		keyframes[mainCfg.activeKeyframeIndex].b2y = d3.event.y;
+		Screen.redrawKeyframe();
+	},
+
+	getNextKeyframeId: function(keyframeIndex){
 		if (keyframeIndex == 0){
-			if(nonDatedata.length == 2){
+			if(keyframes.length == 2){
 				return 1;
 			} else {
 				return 2;
@@ -98,7 +95,7 @@ var Screen = {
 		} else if (keyframeIndex == 1){
 			return -1;
 		} else {
-			if(nonDatedata.length == keyframeIndex +1){
+			if(keyframes.length == keyframeIndex +1){
 				return 1;
 			} else {
 				return keyframeIndex + 1;
@@ -120,8 +117,8 @@ var Screen = {
 			.attr("class", "nextRec")
 			.attr("x", nextkeyframe.recx)
 			.attr("y", nextkeyframe.recy)
-			.attr("width", mainCfg.recWidth/4)
-			.attr("height", mainCfg.recHeight/4)
+			.attr("width", mainCfg.screen.recWidth/4)
+			.attr("height", mainCfg.screen.recHeight/4)
 			.attr("transform", "rotate("+ nextkeyframe.recr + " " + nextkeyframe.recx + " " + nextkeyframe.recy + ")")
 			.style('stroke','teal')
 			.style('stroke-width','3')

@@ -3,18 +3,36 @@ $( document ).ready(function() {
 		fps: 20,
 		numOfSec: 10000,
 		time: {},
-		widthOfTimeline: 460,
-		widthOfScreen: 500,
-		recWidth: 100,
-		recHeight: 50,
+		widthOfTimeline: 480,
 		widthOfTimelineCircle: 20,
 		interpoltaionMethod: 'linear',
-		screenId: '#screen',
-		timelineId: '#timelineNonDate',
 		activeKeyframeIndex: 0,
+		screen: {
+			width: 500,
+			height: 400,
+			id: '#screen',
+			recWidth: 100,
+			recHeight: 50,
+		},
+		timeline: {
+			width: 500,
+			height: 50,
+			radius: 10,
+			lineWidth: 6,
+			color: "teal",
+			background: "#FFF",
+			dateFormat: "%Y/%m/%d %H:%M:%S",
+			horizontalLayout: true,
+			showLabels: false,
+			labelFormat: "%Y",
+			addNow: false,
+			seriesColor: d3.scale.category20(),
+			id: '#timelineNonDate',
+			dateDimension: false
+		}
 	};
 
-	nonDatedata = [
+	keyframes = [
 		{"value": (20*mainCfg.numOfSec)/mainCfg.widthOfTimeline, "name": "0s", 'recx': 0, 'recy': 0, 'recr': 0, 'b1x': 200, 'b1y': 200, 'b2x': 300, 'b2y': 300 },
 		{"value": mainCfg.numOfSec, "name": "10s", 'recx': 0, 'recy': 0, 'recr': 0}
 	];
@@ -26,7 +44,7 @@ $( document ).ready(function() {
 
 		mainCfg.fps = $("#fps-input").val();
 
-		interpolation.loadData(nonDatedata, mainCfg.interpoltaionMethod);
+		interpolation.loadData(keyframes, mainCfg.interpoltaionMethod);
 
 		mainCfg.time = setInterval(function(){
 			secCounter += 1000/mainCfg.fps;
@@ -35,7 +53,7 @@ $( document ).ready(function() {
 			} else {
 				// get square
 				position = interpolation.getPosition(secCounter);
-				Screen.redraw('#screen', position, mainCfg);
+				Screen.redraw(position);
 			}
 		}, 1000/mainCfg.fps);
 	}
@@ -47,8 +65,8 @@ $( document ).ready(function() {
 		Screen.redrawKeyframe();
 	}
 
-	$("#timeline-wrapper").on("click", ".timeline-event", function(evt) {
-		Timeline.activateKeyframe($(this), nonDatedata);
+	$("#timeline-wrapper").on("click", ".timeline-circle", function(evt) {
+		Timeline.activateKeyframe($(this), keyframes);
 		Screen.redrawKeyframe();
 	});
 
@@ -61,14 +79,14 @@ $( document ).ready(function() {
 		playAnimation();
 	});
 	   
-	Timeline.redraw('#timelineNonDate', nonDatedata);
+	Timeline.redraw(keyframes);
 	Screen.redrawKeyframe();
 
 	$('#remove-keyframe-btn').click(function(){
 		if(mainCfg.activeKeyframeIndex != 0 && mainCfg.activeKeyframeIndex != 1){
-			nonDatedata.pop(mainCfg.activeKeyframeIndex);
+			keyframes.pop(mainCfg.activeKeyframeIndex);
 			mainCfg.activeKeyframeIndex = 0;
-			Timeline.redraw('#timelineNonDate', nonDatedata);
+			Timeline.redraw(keyframes);
 			Screen.redrawKeyframe();
 		}
 	});
@@ -78,6 +96,5 @@ $( document ).ready(function() {
 		Screen.redrawKeyframe();
 
 	});
-
 });
 
