@@ -8,7 +8,7 @@ $( document ).ready(function() {
 		activeKeyframeIndex: 0,
 		screen: {
 			width: $('#screen-wrapper').width(),
-			height: 400,
+			height: $(window).height() - 200,
 			id: '#screen',
 			recWidth: 100,
 			recHeight: 50,
