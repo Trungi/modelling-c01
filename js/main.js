@@ -7,14 +7,14 @@ $( document ).ready(function() {
 		interpoltaionMethod: 'linear',
 		activeKeyframeIndex: 0,
 		screen: {
-			width: $('#screen-wrapper').width(),
-			height: $(window).height() - 200,
+			width: 700,
+			height: 400,
 			id: '#screen',
 			recWidth: 100,
 			recHeight: 50,
 		},
 		timeline: {
-			width: $('#screen-wrapper').width(),
+			width: 700,
 			height: 50,
 			radius: 10,
 			lineWidth: 6,
