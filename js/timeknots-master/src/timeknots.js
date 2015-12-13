@@ -62,9 +62,9 @@ var Timeline = {
 
 	drawActiveKeyframe: function (keyframes){
 		var activeKeyframe = keyframes[mainCfg.activeKeyframeIndex];
-		var offset = mainCfg.widthOfTimelineCircle*mainCfg.numOfSec/mainCfg.widthOfTimeline;
+		var offset = mainCfg.widthOfTimelineCircle*mainCfg.numOfSec/(mainCfg.timeline.width - mainCfg.timeline.radius*2);
 		$('.timeline-circle').each(function() {
-			var xPos = $(this).attr('cx')*mainCfg.numOfSec/mainCfg.widthOfTimeline;
+			var xPos = $(this).attr('cx')*mainCfg.numOfSec/(mainCfg.timeline.width - mainCfg.timeline.radius*2);
 			if(xPos < activeKeyframe.value + offset && xPos > activeKeyframe.value - offset){
 				$(this).attr("class", "timeline-circle active-circle");
 			}
@@ -76,8 +76,8 @@ var Timeline = {
 		var dim = e.getBoundingClientRect();
 		var x = evt.clientX - dim.left;
 		var y = evt.clientY - dim.top;
-		var indexOfItem = keyframes.push({"value": ((x*mainCfg.numOfSec)/mainCfg.widthOfTimeline),
-			"name": (((x*mainCfg.numOfSec)/mainCfg.widthOfTimeline)/10)+"s", 
+		var indexOfItem = keyframes.push({"value": ((x*mainCfg.numOfSec)/(mainCfg.timeline.width - mainCfg.timeline.radius*2)),
+			"name": (((x*mainCfg.numOfSec)/(mainCfg.timeline.width - mainCfg.timeline.radius*2))/10)+"s", 
 			'recx': 0, 'recy': 0, 'recr': 0,
 			'b1x': 200, 'b1y': 200, 'b2x': 300, 
 			'b2y': 300}) -1;
@@ -92,8 +92,8 @@ var Timeline = {
 
 	getIndexOfActiveKeyframe: function(circle, keyframes){
 		var retIndex = -1;
-		var xPos = circle.attr('cx')*mainCfg.numOfSec/mainCfg.widthOfTimeline;
-		var offset = mainCfg.widthOfTimelineCircle*mainCfg.numOfSec/mainCfg.widthOfTimeline;
+		var xPos = circle.attr('cx')*mainCfg.numOfSec/(mainCfg.timeline.width - mainCfg.timeline.radius*2);
+		var offset = mainCfg.widthOfTimelineCircle*mainCfg.numOfSec/(mainCfg.timeline.width - mainCfg.timeline.radius*2);
 		
 		$.each(keyframes, function( index, value ) {
 			if(value.value < xPos + offset && value.value > xPos - offset){
@@ -118,8 +118,8 @@ var Timeline = {
 			.transition()
 				.duration(mainCfg.numOfSec)
 				.ease("linear")
-				.attr("x1", mainCfg.timeline.radius + mainCfg.widthOfTimeline)
-				.attr("x2", mainCfg.timeline.radius + mainCfg.widthOfTimeline)
+				.attr("x1", mainCfg.timeline.radius + (mainCfg.timeline.width - mainCfg.timeline.radius*2))
+				.attr("x2", mainCfg.timeline.radius + (mainCfg.timeline.width - mainCfg.timeline.radius*2))
 			.remove();
 	}
 }

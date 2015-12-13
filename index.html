@@ -23,7 +23,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="col-md-10" id="main-div">
+			<div class="col-md-9" id="main-div">
 				<div class="col-md-12" id="screen-wrapper">
 					<div id="screen"></div>
 				</div>
@@ -31,15 +31,16 @@
 					<div id="timelineNonDate"></div>
 				</div>
 			</div>
-			<div class="col-md-2" id="side-control-panel">
+			<div class="col-md-3 align-center" id="side-control-panel">
 				<div class="col-md-12">
 					<h3>Settings:</h3>
 				</div>
-				<div class="col-md-12 align-center">
-					<button class="btn btn-success" id="play-animation-btn">Play</button>
+				<div class="col-md-12 align-center btn-group">
+					<button class="btn btn-success" id="play-animation-btn"><span class="glyphicon glyphicon-play"></span>Play</button>
+					<button class="btn-danger btn" id="reset-btn"><span class="glyphicon glyphicon-repeat"></span>Reset</button>
 				</div>
 				<div class="col-md-12 align-center">
-					<button class="btn btn-success" id="remove-keyframe-btn">Remove keyframe</button>
+					<button class="btn btn-warning" id="remove-keyframe-btn"><span class="glyphicon glyphicon-trash"></span>Remove keyframe</button>
 				</div>
 				<div class="col-md-12">
 					<div class="input-group">

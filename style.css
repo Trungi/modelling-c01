@@ -1,11 +1,23 @@
-.align-center{
+.align-center {
 	text-align: center;
 }
 
-#side-control-panel > div{
+#side-control-panel > div {
 	margin-top: 1em;
 }
 
-.active-circle{
+.active-circle {
 	fill:red !important;
+}
+
+#side-control-panel .btn-group button{
+	float: none;
+}
+
+#side-control-panel .glyphicon {
+	margin-right: .4em;
+}
+
+#screen-wrapper {
+	margin-top: 1em;
 }

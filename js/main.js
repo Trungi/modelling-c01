@@ -3,19 +3,18 @@ $( document ).ready(function() {
 		fps: 20,
 		numOfSec: 10000,
 		time: {},
-		widthOfTimeline: 480,
 		widthOfTimelineCircle: 20,
 		interpoltaionMethod: 'linear',
 		activeKeyframeIndex: 0,
 		screen: {
-			width: 500,
+			width: $('#screen-wrapper').width(),
 			height: 400,
 			id: '#screen',
 			recWidth: 100,
 			recHeight: 50,
 		},
 		timeline: {
-			width: 500,
+			width: $('#screen-wrapper').width(),
 			height: 50,
 			radius: 10,
 			lineWidth: 6,
@@ -33,7 +32,7 @@ $( document ).ready(function() {
 	};
 
 	keyframes = [
-		{"value": (20*mainCfg.numOfSec)/mainCfg.widthOfTimeline, "name": "0s", 'recx': 0, 'recy': 0, 'recr': 0, 'b1x': 200, 'b1y': 200, 'b2x': 300, 'b2y': 300 },
+		{"value": (20*mainCfg.numOfSec)/(mainCfg.timeline.width - mainCfg.timeline.radius*2), "name": "0s", 'recx': 0, 'recy': 0, 'recr': 0, 'b1x': 200, 'b1y': 200, 'b2x': 300, 'b2y': 300 },
 		{"value": mainCfg.numOfSec, "name": "10s", 'recx': 0, 'recy': 0, 'recr': 0}
 	];
 	
@@ -95,6 +94,10 @@ $( document ).ready(function() {
 		mainCfg.interpoltaionMethod = $("#interpolation input[type='radio']:checked").val();
 		Screen.redrawKeyframe();
 
+	});
+
+	$('#reset-btn').click(function(){
+		window.location.reload(false);
 	});
 });
 
