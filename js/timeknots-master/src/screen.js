@@ -86,27 +86,24 @@ var Screen = {
 	},
 
 	getNextKeyframeId: function(keyframeIndex){
-		if (keyframeIndex == 0){
-			if(keyframes.length == 2){
-				return 1;
-			} else {
-				return 2;
+		var minBiggerValue = mainCfg.numOfSec;
+		var minBiggerValueKeyframeIndex = 1;
+		$.each(keyframes, function(index, keyframe) {
+			console.log(keyframe);
+			console.log(index);
+			
+			if(keyframes[keyframeIndex].value < keyframe.value && minBiggerValue > keyframe.value) {
+				minBiggerValue = keyframe.value;
+				minBiggerValueKeyframeIndex = index;
 			}
-		} else if (keyframeIndex == 1){
-			return -1;
-		} else {
-			if(keyframes.length == keyframeIndex +1){
-				return 1;
-			} else {
-				return keyframeIndex + 1;
-			}
-		}
+		});
+		return minBiggerValueKeyframeIndex;
 	},
 
 	drawBezier: function(svg, keyframe, nextkeyframe) {
 		svg.append("svg:path")
 			.attr("id", "curve")
-			.attr("d", "M"+ [keyframe.recx, keyframe.recy].join() + " C" + [keyframe.b1x, keyframe.b1y].join() +
+			.attr("d", "M" + [keyframe.recx, keyframe.recy].join() + " C" + [keyframe.b1x, keyframe.b1y].join() +
 				" " + [keyframe.b2x, keyframe.b2y].join() + " "+ [nextkeyframe.recx, nextkeyframe.recy].join())
 			.style('fill', 'none')
 			.style('stroke-linecap', 'round')

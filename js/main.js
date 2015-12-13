@@ -84,7 +84,7 @@ $( document ).ready(function() {
 
 	$('#remove-keyframe-btn').click(function(){
 		if(mainCfg.activeKeyframeIndex != 0 && mainCfg.activeKeyframeIndex != 1){
-			keyframes.pop(mainCfg.activeKeyframeIndex);
+			keyframes.splice(mainCfg.activeKeyframeIndex, 1);
 			mainCfg.activeKeyframeIndex = 0;
 			Timeline.redraw(keyframes);
 			Screen.redrawKeyframe();
